@@ -33,3 +33,51 @@ $$;
 ```
 call adduser ('muhammad azam', 'islamabad')
 ```
+
+### `What is User Pre-Defined functions?`
+
+#### A user-defined function (UDF) in PostgreSQL is a function created by users to perform specific operations that are not provided by built-in functions. These functions can encapsulate complex logic, manipulate data, and return results, making them reusable throughout your database.
+
+### Key Features:
+
+- Custom Logic: You can implement business rules or calculations.
+- Return Types: UDFs can return various types, including scalar values, rows, or sets.
+- Multiple Languages: Functions can be written in various languages like SQL, PL/pgSQL, Python, etc.
+
+### 1) `Create a registerusers table`
+
+```
+CREATE TABLE registerusers (
+    id SERIAL PRIMARY KEY,
+    username VARCHAR(100) NOT NULL,
+    country VARCHAR(100)
+);
+
+```
+
+### 2) `Insert data into registerusers table`
+
+```
+INSERT INTO registerusers (username, country) VALUES
+('Uzair', 'In'),
+('Farooq', 'Pk'),
+('Ahmed', 'Nz');
+```
+
+### 3) `Create a function`
+
+```
+CREATE OR REPLACE FUNCTION getuserbycountry(country_input VARCHAR(100))
+RETURNS TABLE(username VARCHAR(100)) AS $$
+BEGIN
+    RETURN QUERY
+    SELECT ru.username FROM registerusers ru WHERE ru.country = country_input;
+END;
+$$ LANGUAGE plpgsql;
+```
+
+### 4) `Querying data`
+
+```
+SELECT * FROM getuserbycountry('In');
+```
